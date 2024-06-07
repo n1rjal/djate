@@ -7,56 +7,44 @@ services:
     build:
       context: .
     volumes:
-      - mgl_data:/app/
+      - djate_data:/app/
       - .:/app
     depends_on:
       - redis
-      - worker
+      - worker_beat
     ports:
       - "8000:8000"
+      - "7777:7777"
+    env_file: docker.env
     networks:
-      - mgl_net
+      - djate_net
 
-
-  worker:
+  worker_beat:
     restart: unless-stopped
     build:
       context: .
-    command: ["celery", "-A", "mgl_syncer", "worker", "-l", "info", "--concurrency=1"]
+    command: ["/bin/sh", "-c", "cd app && celery -A core worker -l info -B --concurrency=1"]
     env_file: docker.env
     volumes:
-      - mgl_data:/app/
+      - djate_data:/app/
       - .:/app
     networks:
-      - mgl_net
-
-
-  beat:
-    restart: unless-stopped
-    build:
-      context: .
-    command: ["celery", "-A", "mgl_syncer", "beat", "-l", "info"]
-    env_file: docker.env
-    volumes:
-      - mgl_data:/app/
-      - .:/app
-    networks:
-      - mgl_net
+      - djate_net
 
   redis:
-    container_name: mgl_syncer_redis
+    container_name: djate_syncer_redis
     image: redis:alpine
     restart: always
     volumes:
-      - mgl_data:/app/
+      - djate_data:/app/
     networks:
-      - mgl_net
+      - djate_net
 
 volumes:
-  mgl_data:
+  djate_data:
     driver: local
 
 networks:
-  mgl_net:
+  djate_net:
     driver: bridge
-    name: hifoods-internal-network
+    name: djate_net
