@@ -22,9 +22,9 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="MGL API",
+        title="Djate Api",
         default_version="v1",
-        description="MGL API",
+        description="Djate API",
     ),
     public=True,
     permission_classes=(permissions.IsAuthenticatedOrReadOnly,),
