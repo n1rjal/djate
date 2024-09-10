@@ -9,6 +9,5 @@ RUN pip install -r requirements.txt
 RUN apk del .build-deps
 COPY . .
 EXPOSE 8000
-EXPOSE 7777
 RUN chmod +x /scripts/entrypoint.sh
 CMD ["sh", "/scripts/entrypoint.sh"]

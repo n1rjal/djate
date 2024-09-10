@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   app:
     container_name: djate_app
@@ -14,8 +12,7 @@ services:
       - worker_beat
     ports:
       - "8000:8000"
-      - "7777:7777"
-    env_file: docker.env
+    env_file: .env
     networks:
       - djate_net
 
@@ -23,8 +20,8 @@ services:
     restart: unless-stopped
     build:
       context: .
-    command: ["/bin/sh", "-c", "cd app && celery -A core worker -l info -B --concurrency=1"]
-    env_file: docker.env
+    command: ["/bin/sh", "-c", "celery -A core  worker -l info --concurrency=1"]
+    env_file: .env
     volumes:
       - djate_data:/app/
       - .:/app
@@ -39,6 +36,18 @@ services:
       - djate_data:/app/
     networks:
       - djate_net
+
+  flower:
+    image: mher/flower
+    command: ['celery', '--broker=redis://redis:6379', 'flower', '--port=5555', "--basic-auth=admin:pswd"]
+    ports:
+      - 7777:5555
+    env_file: .env
+    depends_on:
+      - redis
+    networks:
+      - djate_net
+
 
 volumes:
   djate_data:

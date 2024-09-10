@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third party apps
+    "drf_yasg",
+    "celery",
     "rest_framework",
     "corsheaders",
     "django_celery_beat",
@@ -142,6 +144,18 @@ STATIC_URL = "static/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "prefix": "Bearer",
+        }
+    },
+}
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
@@ -153,3 +167,6 @@ CELERY_TASK_TIME_LIMIT = 60 * 60 * 2
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 APP_NAME = "put_your_name-here"
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
