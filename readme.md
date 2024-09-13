@@ -27,10 +27,10 @@ Message queue used here is redis. Redis transport is used for celery in this rep
 Flower is a celery monitoring tool. It is used to monitor various aspects of celery tasks and queues
 The default authentication used for celery is given below.
 
-> Celery runs on port 7777. Suiiiii
+> Flower runs on port 7777. Suiiiii
 
-** user: admin **
-** password: pswd **
+**user: admin**
+**password: pswd**
 
 ## Code Architecture:
 Djate follows the basic django architecture of apps and manage.py living in the same path. Each application has same components like views, models, urls, etc with tasks deinfed for celery inside tasks.py file.
@@ -46,3 +46,4 @@ If you want to contribute here are some things I would want for this repository.
 [] Add security fixes
 [] Admin panel fixes
 [] Todo app implementation
+[] Use celery beat for task scheduling
