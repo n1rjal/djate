@@ -12,7 +12,7 @@ This template is created so that testing some qucikly in django becomes easy and
 ## Physical Architecture
 When you run the following command, following will be setup using docker-compose.
 
-![physcial architecture of Djate](./asstes/physical_architecture.png)
+![physcial architecture of Djate](/assets/physical_architecture.png)
 
 ### Webserver:
 Django based webserver which comes preinstalled with django, django rest framework, drf_yasg and other packages. Please look into [requirements.txt](https://github.com/n1rjal/djate/blob/main/requirements.txt)
