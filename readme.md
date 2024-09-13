@@ -39,11 +39,11 @@ The coding pattern of my choice is to use DRF generics and viewsets
 
 ## Contributing:
 If you want to contribute here are some things I would want for this repository. Make sure you tick your contribution off when you submit your PR
-[] Vote for postgres vs sqlite as default database. [Use this issue](https://github.com/n1rjal/djate/issues/1)
-[] Use nginx to wrap django app.
-[] Add configuration for process management with systemd
-[] Add advanced logging
-[] Add security fixes
-[] Admin panel fixes
-[] Todo app implementation
-[] Use celery beat for task scheduling
+
+[ ] Vote for postgres vs sqlite as default database. [Use this issue](https://github.com/n1rjal/djate/issues/1)
+[ ] Use nginx to wrap django app.
+[ ] Add configuration for process management with systemd
+[ ] Add advanced logging
+[ ] Add security fixes
+[ ] Admin panel fixes
+[ ] Todo app implementation
