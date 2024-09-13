@@ -1,49 +1,47 @@
 # Djate
-| Pronounced "झा"
+| Pronounced झाटे
 
-## What is Djate ?
-Djate is a simple but effective django template that's is both beginner friendly but not production ready.
-
+## What is Djate?
+Djate is a simple yet effective Django template that is beginner-friendly but not intended for production use.
 
 ## Purpose
-This template is created so that testing some qucikly in django becomes easy and not much tedious. Imagine pip installing rest_api, celery, celery backend, flower, etc when you can do it with one click and 1 command
-
+The purpose of this template is to simplify testing in Django, making it quick and easy without the hassle of manual setup. Instead of manually installing packages like `django-rest-framework`, `celery`, `celery-backend`, and `flower`, you can get everything up and running with just one click and a single command.
 
 ## Physical Architecture
-When you run the following command, following will be setup using docker-compose.
+When you run the following command, the setup will be created using `docker-compose`.
 
-![physcial architecture of Djate](/assets/physical_architecture.png)
+![Physical architecture of Djate](/assets/physical_architecture.png)
 
 ### Webserver:
-Django based webserver which comes preinstalled with django, django rest framework, drf_yasg and other packages. Please look into [requirements.txt](https://github.com/n1rjal/djate/blob/main/requirements.txt)
+The webserver is based on Django and comes preinstalled with Django, Django REST framework (DRF), `drf_yasg` for API documentation, and other essential packages. You can find the full list of dependencies in [requirements.txt](https://github.com/n1rjal/djate/blob/main/requirements.txt).
 
 ### Database:
-SQLite is the database of choice here. As I mostly use this repository to test some django assumptions or learn something internal about django.
+The default database used in Djate is SQLite, as it’s lightweight and suitable for quick testing and learning about Django internals. However, there's an open discussion to consider switching to PostgreSQL as the default database.
 
 ### Message Queue:
-Message queue used here is redis. Redis transport is used for celery in this repo
+Djate uses Redis as the message queue for Celery. Redis is a popular and efficient transport for managing background tasks in Django.
 
 ### Flower:
-Flower is a celery monitoring tool. It is used to monitor various aspects of celery tasks and queues
-The default authentication used for celery is given below.
+Flower is included for Celery task monitoring. It allows you to monitor the status of Celery tasks and queues.
+Flower runs on port `7777` with the following default credentials:
 
-> Flower runs on port 7777. Suiiiii
+**Username:** admin
+**Password:** pswd
 
-**user: admin**
-**password: pswd**
+> _Flower runs on port 7777. Suiiiii!_
 
 ## Code Architecture:
-Djate follows the basic django architecture of apps and manage.py living in the same path. Each application has same components like views, models, urls, etc with tasks deinfed for celery inside tasks.py file.
-The coding pattern of my choice is to use DRF generics and viewsets
+Djate follows the standard Django project structure with `apps` and `manage.py` in the root directory. Each app has components such as `views.py`, `models.py`, `urls.py`, etc. Celery tasks are defined in `tasks.py` for each application.
 
+The code architecture also leverages Django REST Framework (DRF) generics and viewsets for building APIs efficiently.
 
 ## Contributing:
-If you want to contribute here are some things I would want for this repository. Make sure you tick your contribution off when you submit your PR
+If you want to contribute to Djate, here are some suggestions for improvements. Please check off your contribution when you submit your PR:
 
-[ ] Vote for postgres vs sqlite as default database. [Use this issue](https://github.com/n1rjal/djate/issues/1)
-[ ] Use nginx to wrap django app.
-[ ] Add configuration for process management with systemd
-[ ] Add advanced logging
-[ ] Add security fixes
-[ ] Admin panel fixes
-[ ] Todo app implementation
+- [ ] Vote for PostgreSQL vs SQLite as the default database. [Use this issue](https://github.com/n1rjal/djate/issues/1)
+- [ ] Add Nginx as a reverse proxy for the Django app.
+- [ ] Add configuration for process management with Systemd.
+- [ ] Implement advanced logging features.
+- [ ] Apply security fixes.
+- [ ] Improve the Django admin panel.
+- [ ] Implement a To-do app as an example project.
