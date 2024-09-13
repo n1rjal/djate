@@ -2,7 +2,7 @@
 | Pronounced झाटे
 
 ## What is Djate?
-Djate is a simple yet effective Django template that is beginner-friendly but not intended for production use.
+Djate is a simple yet effective Django template that is beginner-friendly and intended for production use (in future)
 
 ## Purpose
 The purpose of this template is to simplify testing in Django, making it quick and easy without the hassle of manual setup. Instead of manually installing packages like `django-rest-framework`, `celery`, `celery-backend`, and `flower`, you can get everything up and running with just one click and a single command.
