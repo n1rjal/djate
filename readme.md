@@ -45,3 +45,4 @@ If you want to contribute to Djate, here are some suggestions for improvements. 
 - [ ] Apply security fixes.
 - [ ] Improve the Django admin panel.
 - [ ] Implement a To-do app as an example project.
+- [ ] Remove sqlite from repo
