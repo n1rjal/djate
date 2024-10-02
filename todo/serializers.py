@@ -7,11 +7,6 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = "__all__"
     
-    def __init__(self,*args,**kwargs):  
-        super(TagSerializer, self).__init__(*args,**kwargs)
-        # creating  a work around for patch requiring name field 
-        if method:= kwargs.get("context",{}).get("request",{}).method == "PATCH":
-            self.fields["name"].required = False  
 
 class TaskSerializer(serializers.ModelSerializer):
     tags = serializers.ListField(
