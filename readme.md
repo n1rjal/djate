@@ -44,5 +44,5 @@ If you want to contribute to Djate, here are some suggestions for improvements. 
 - [ ] Implement advanced logging features.
 - [ ] Apply security fixes.
 - [ ] Improve the Django admin panel.
-- [ ] Implement a To-do app as an example project.
+- [x] Implement a To-do app as an example project.
 - [x] Remove sqlite from repo
