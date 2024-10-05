@@ -35,6 +35,9 @@ Djate follows the standard Django project structure with `apps` and `manage.py` 
 
 The code architecture also leverages Django REST Framework (DRF) generics and viewsets for building APIs efficiently.
 
+## Integration
+- [Sentry](/documents/sentry.md)
+
 ## Contributing:
 If you want to contribute to Djate, here are some suggestions for improvements. Please check off your contribution when you submit your PR:
 
