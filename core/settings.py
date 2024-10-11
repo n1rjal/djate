@@ -14,6 +14,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -190,3 +193,18 @@ APP_NAME = "put_your_name-here"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Sentry Integration. Refer doc for more details: https://docs.sentry.io/platforms/python/integrations/django/
+SENTRY_DSN = os.environ.get("SENTRY_DSN", "")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100% of transactions for tracing.
+        traces_sample_rate=os.environ.get("SENTRY_TRACE_RATE", 1.0),
+        # User data (such as current user id, email address, username)
+        # will be attached to error events.
+        send_default_pii=os.environ.get("SENTRY_SEND_PII", False),
+        # Set profiles_sample_rate to 1.0 to profile 100% of sampled transactions.
+        profiles_sample_rate=os.environ.get("SENTRY_PROFILE_RATE", 1.0),
+    )
