@@ -48,10 +48,9 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_celery_beat",
     "django_celery_results",
-    
-    #django apps 
+    # django apps
     # todo
-    "todo", 
+    "todo",
 ]
 
 MIDDLEWARE = [
@@ -88,7 +87,8 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 # Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/5.0/ref/settings/#database's
+
 
 DATABASES = {
     "default": {
@@ -107,6 +107,22 @@ DATABASES = {
 #         "PORT": os.getenv("DB_PORT"),  # Set to empty string for default
 #     },
 # }
+
+
+# Redis server configuration
+
+# cache
+# for more info please visits https://pypi.org/project/django-redis/
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv("CACHE_HOST"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 
 # Password validation
