@@ -42,7 +42,7 @@ The code architecture also leverages Django REST Framework (DRF) generics and vi
 If you want to contribute to Djate, here are some suggestions for improvements. Please check off your contribution when you submit your PR:
 
 - [ ] Vote for PostgreSQL vs SQLite as the default database. [Use this issue](https://github.com/n1rjal/djate/issues/1)
-- [ ] Add Nginx as a reverse proxy for the Django app.
+- [x] Add Nginx as a reverse proxy for the Django app.
 - [ ] Add configuration for process management with Systemd.
 - [ ] Implement advanced logging features.
 - [ ] Apply security fixes.
