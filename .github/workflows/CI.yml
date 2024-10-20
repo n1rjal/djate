@@ -1,0 +1,45 @@
+name: GNOME server CI workflow
+
+on:
+  pull_request:
+
+# sets up python code for linting issue
+# and runnable issues
+jobs:
+  lint_and_deploy_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      id: python-setup
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+
+
+    - name: Install dev depenecies
+      run: |
+        python -m pip install black flake8
+
+    - name: Run flake8 linting
+      run: flake8 .
+
+    - name: Run black for formatting check
+      run: black . --check
+
+
+    - name: Add dummy .env file
+      run: |
+        cp env.example .env
+
+    - name: Run Django system checks
+      run: |
+        python manage.py check || exit 1
