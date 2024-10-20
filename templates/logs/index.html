@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOG DIRECTORY</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif; /* Vintage-style font */
+            background-color: #f9f3e3; /* Light beige background */
+            margin: 0;
+            padding: 20px;
+            color: #333; /* Dark text color */
+        }
+
+        h1 {
+            text-align: center;
+            color: #5a3e2a; /* Dark brown color */
+            font-size: 2.5em; /* Larger heading */
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 0px #fff; /* Subtle shadow for depth */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #fff; /* White background for list items */
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Softer shadow */
+            transition: transform 0.2s, box-shadow 0.2s; /* Added shadow transition */
+            border: 1px solid #d1c6b8; /* Light border for vintage effect */
+        }
+
+        li:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+
+        a {
+            text-decoration: none;
+            color: #8b5a2b; /* Darker brown for links */
+            font-weight: bold;
+            font-size: 1.2em; /* Slightly larger font for links */
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #a0522d; /* Change color on hover */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff; /* White background for the container */
+            border-radius: 10px; /* Rounded corners for the container */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for the container */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>LOG FILES</h1>
+        <ul>
+            {% for file in files %}
+            <li>
+                <a href="{{ directory_path|add:file }}" download>{{ file }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+
+</html>
