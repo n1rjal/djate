@@ -11,4 +11,3 @@
 * Copy the DSN and set it into the OS environment variable `SENTRY_DSN`
 
 <img src="../assets/sentry_project_config.png" alt="Image description" width="682" height="452">
-

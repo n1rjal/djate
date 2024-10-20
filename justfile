@@ -6,8 +6,6 @@ init:
     pip install -r requirements.txt
     cp env.example .env
     cp env.example docker.env
-    docker run -p 6379:6379 --name djate_red redis -d
-    docker run -p 5432:5432 --name djate_pg postgres -d
 
 
 create_admin:

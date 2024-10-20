@@ -39,6 +39,7 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split("
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -258,15 +259,13 @@ LOGGING = {
     "loggers": {
         # Logger for synchronization system
         "CUSTOM_LOG": {
-            "handlers": ["file_sync"] if DEBUG else ["file_sync"],
+            "handlers": ["file_sync", "console"] if DEBUG else ["file_sync"],
             "level": "INFO" if DEBUG else "CRITICAL",
             "propagate": False,
         },
         # Logger for SQL queries
         "django.db.backends": {
-            "handlers": (
-                ["file_sql"] if os.getenv("LOG_LEVEL", "CRITICAL") else ["file_sql"]
-            ),
+            "handlers": ["file_sql"],
             "level": "DEBUG",
             "propagate": False,
         },
