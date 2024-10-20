@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 
-import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+import sentry_sdk
 
 load_dotenv()
 
@@ -30,9 +31,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-6myuk3r00t60w08gf6!+j(r@s(=y%of)cj6v9^3qi-shk%88#+"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "FALSE") == "TRUE"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 
 # Application definition
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -95,21 +97,15 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        # Set to empty string for localhost
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),  # Set to empty string for default
     },
 }
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("DB_NAME"),
-#         "USER": os.getenv("DB_USER"),
-#         "PASSWORD": os.getenv("DB_PASSWORD"),
-#         # Set to empty string for localhost
-#         "HOST": os.getenv("DB_HOST"),
-#         "PORT": os.getenv("DB_PORT"),  # Set to empty string for default
-#     },
-# }
 
 
 # Redis server configuration
@@ -163,6 +159,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -184,12 +185,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
-CELERY_TIMEZONE = "Europe/Berlin"
+CELERY_TIMEZONE = "UTC"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 60 * 60 * 2
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-
-APP_NAME = "put_your_name-here"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -201,10 +200,75 @@ if SENTRY_DSN:
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
         # Set traces_sample_rate to 1.0 to capture 100% of transactions for tracing.
-        traces_sample_rate=os.environ.get("SENTRY_TRACE_RATE", 1.0),
+        traces_sample_rate=os.get("SENTRY_TRACE_RATE", 1.0),
         # User data (such as current user id, email address, username)
         # will be attached to error events.
         send_default_pii=os.environ.get("SENTRY_SEND_PII", False),
         # Set profiles_sample_rate to 1.0 to profile 100% of sampled transactions.
         profiles_sample_rate=os.environ.get("SENTRY_PROFILE_RATE", 1.0),
     )
+
+
+# Ensure the logs directory exists
+if not os.path.exists("logs"):
+    os.makedirs("logs")
+
+# Get current date for log file names
+current_date = datetime.now().strftime("%Y-%m-%d")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        # Console output handler
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+        # File handler for synchronization log with dynamic filename
+        "file_sync": {
+            "level": "DEBUG",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": f"./logs/custom_{current_date}.log",
+            "when": "D",  # Rotate daily
+            "interval": 1,  # Every 1 day
+            "backupCount": 5,  # Keep 5 backups
+            "formatter": "verbose",
+        },
+        # File handler for SQL log with dynamic filename and daily rotation
+        "file_sql": {
+            "level": "DEBUG",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": f"./logs/sql_{current_date}.log",
+            "when": "D",  # Rotate daily
+            "interval": 1,  # Every 1 day
+            "backupCount": 5,  # Keep 5 backups
+            "formatter": "verbose",
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "%(asctime)s [%(levelname)s] %(message)s",
+        },
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[{server_time}] {message}",
+            "style": "{",
+        },
+    },
+    "loggers": {
+        # Logger for synchronization system
+        "CUSTOM_LOG": {
+            "handlers": ["file_sync"] if DEBUG else ["file_sync"],
+            "level": "INFO" if DEBUG else "CRITICAL",
+            "propagate": False,
+        },
+        # Logger for SQL queries
+        "django.db.backends": {
+            "handlers": (
+                ["file_sql"] if os.getenv("LOG_LEVEL", "CRITICAL") else ["file_sql"]
+            ),
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}

@@ -4,6 +4,8 @@ services:
     restart: unless-stopped
     build:
       context: .
+      target: $DOCKERFILE_TARGET
+
     volumes:
       - djate_data:/app/
       - .:/app
@@ -12,7 +14,7 @@ services:
       - worker_beat
     ports:
       - "8000:8000"
-    env_file: .env
+    env_file: docker.env
     networks:
       - djate_net
 
@@ -20,8 +22,9 @@ services:
     restart: unless-stopped
     build:
       context: .
+      target: worker
     command: ["/bin/sh", "-c", "celery -A core  worker -l info --concurrency=1"]
-    env_file: .env
+    env_file: docker.env
     volumes:
       - djate_data:/app/
       - .:/app
@@ -39,19 +42,35 @@ services:
 
   flower:
     image: mher/flower
-    command: ['celery', '--broker=redis://redis:6379', 'flower', '--port=5555', "--basic-auth=admin:pswd"]
+    command: ['celery', '--broker=redis://redis:6379', 'flower', '--port=5555', "--basic-auth=$FLOWER_USERNAME:$FLOWER_PASSWORD"]
     ports:
       - 7777:5555
-    env_file: .env
+    env_file: docker.env
     depends_on:
       - redis
     networks:
       - djate_net
 
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - djate_net
+
+
 
 volumes:
   djate_data:
     driver: local
+
+  pg_data:
 
 networks:
   djate_net:
