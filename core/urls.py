@@ -36,6 +36,8 @@ schema_view = get_schema_view(
 )
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("logs/", logs.index_directory_log, name="logs-dir"),
+    path("logs/<str:filename>", logs.serve_file, name="log-file"),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
@@ -52,8 +54,6 @@ urlpatterns = [
                 # v1 urls
                 path("rester/", include("rester.urls")),
                 path("todo/", include(todo_urls)),
-                path("logs/", logs.index_directory_log, name="logs-dir"),
-                path("logs/<str:filename>", logs.serve_file, name="log-file"),
             ]
         ),
     ),
