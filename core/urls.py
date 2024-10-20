@@ -21,6 +21,9 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 from todo.urls import urlpatterns as todo_urls
+from . import logs
+from . import settings
+from django.views.static import serve
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -33,6 +36,8 @@ schema_view = get_schema_view(
 )
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("logs/", logs.index_directory_log, name="logs-dir"),
+    path("logs/<str:filename>", logs.serve_file, name="log-file"),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
