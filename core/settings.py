@@ -28,12 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-6myuk3r00t60w08gf6!+j(r@s(=y%of)cj6v9^3qi-shk%88#+"
+SECRET_KEY = (
+    "django-insecure-6myuk3r00t60w08gf6!+j(r@s(=y%of)cj6v9^3qi-shk%88#+"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "FALSE") == "TRUE"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(
+    ","
+)
 
 
 # Application definition
@@ -76,7 +80,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")], 
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -160,7 +164,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
@@ -274,4 +278,4 @@ LOGGING = {
 }
 
 LOG_URL = "/log/"
-LOG_ROOT = os.path.join(BASE_DIR, "logs") 
+LOG_ROOT = os.path.join(BASE_DIR, "logs")
