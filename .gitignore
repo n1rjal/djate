@@ -1,6 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/django
-# Edit at https://www.toptal.com/developers/gitignore?templates=django
-
 ### Django ###
 *.log
 *.pot
@@ -163,6 +160,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+logs/**
+
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
@@ -171,3 +170,8 @@ cython_debug/
 #.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
+.DS_Store
+staticfiles
+media
+docker.env
+celery-schedule
