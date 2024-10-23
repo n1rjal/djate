@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, generics
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializers import TaskSerializer, TagSerializer
@@ -17,8 +17,8 @@ class TagViewSet(ModelViewSet):
 
     def get_object(self):
         tag_id = self.kwargs.get("tag_id")
-        return Tag.objects.filter(pk=tag_id).first() 
- 
+        return Tag.objects.filter(pk=tag_id).first()
+
 
 # using functional approach
 
@@ -74,7 +74,7 @@ def get_task(request, **kwargs):
     responses={status.HTTP_200_OK: TaskSerializer},
     operation_description="Update a task by id",
 )
-@api_view(["PATCH"]) 
+@api_view(["PATCH"])
 def update_task(request, **kwargs):
     task_id = kwargs.get("task_id")
     instance = Task.objects.get(pk=task_id)
@@ -96,4 +96,6 @@ def delete_task(request, **kwargs):
     task_id = kwargs.get("task_id")
     task = Task.objects.get(pk=task_id)
     task.delete()
-    return Response({"deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    return Response(
+        {"deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+    )

@@ -1,4 +1,4 @@
-name: GNOME server CI workflow
+name: Djate CI workflow
 
 on:
   pull_request:
