@@ -8,7 +8,10 @@ Djate is a simple yet effective Django template that is beginner-friendly and in
 The purpose of this template is to simplify testing in Django, making it quick and easy without the hassle of manual setup. Instead of manually installing packages like `django-rest-framework`, `celery`, `celery-backend`, and `flower`, you can get everything up and running with just one click and a single command.
 
 ## How to start djate
-To get started with djate run just init in the command shell. [Make sure you install just first](https://github.com/casey/just)
+To get started with djate run just init in the command shell. 
+```bash
+make init
+```
 
 # Physical Architecture
 When you run the following command, the setup will be created using `docker-compose`.
