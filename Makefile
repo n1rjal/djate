@@ -1,9 +1,14 @@
 init:
-	pip freeze | grep poetry || pip install poetry
-	# Activate poetry shell
-	poetry install || echo "Poetry environment not found."
-	# Copy environment files
-	cp env.example .env && cp env.example docker.env
+	@echo "Listing dependencies..."
+	pip freeze || echo "Failed to list requirements.txt"
+
+	@echo "Installing uv..."
+	pip install uv || echo "failed to install uv"
+
+	@echo "Installing dependencies..."
+	@uv pip install -r requirements.txt || echo "Failed to install dependencies."
+
+	cp env.example .env && cp env.example docker.env  
 
 create_admin:
 	DJANGO_SUPERUSER_USERNAME=$(DJANGO_ADMIN_USERNAME) \
