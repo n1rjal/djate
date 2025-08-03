@@ -12,7 +12,7 @@ class TaskSerializer(serializers.ModelSerializer):
     tags = serializers.ListField(
         child=serializers.IntegerField(), required=True, write_only=True
     )
-    completed = serializers.BooleanField(default=False)
+    
 
     def validate_tags(self, value):
         tags = Tag.objects.filter(id__in=value).count()
