@@ -1,10 +1,8 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=160)
     description = models.TextField(null=True)
 
     def __str__(self):
