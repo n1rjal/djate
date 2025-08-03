@@ -12,7 +12,6 @@ class TaskSerializer(serializers.ModelSerializer):
     tags = serializers.ListField(
         child=serializers.IntegerField(), required=True, write_only=True
     )
-    
 
     def validate_tags(self, value):
         tags = Tag.objects.filter(id__in=value).count()
@@ -21,7 +20,9 @@ class TaskSerializer(serializers.ModelSerializer):
         return value
 
     def to_representation(self, instance):
-        data = super().to_representation(instance)
+        data = super().to_representation(
+            instance
+        )
         data["tags"] = TagSerializer(instance.tags.all(), many=True).data
         return data
 
