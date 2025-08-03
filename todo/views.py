@@ -95,7 +95,6 @@ def update_task(request, **kwargs):
 def delete_task(request, **kwargs):
     task_id = kwargs.get("task_id")
     task = Task.objects.get(pk=task_id)
-    task.delete()
     return Response(
         {"deleted successfully"}, status=status.HTTP_204_NO_CONTENT
     )
