@@ -47,7 +47,7 @@ def list_tasks(request):
 def create_task(request):
     serializer = TaskSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    # serializer.save()
     return Response(
         serializer.data,
     )
