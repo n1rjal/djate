@@ -33,7 +33,15 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "FALSE") == "TRUE"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
+ALLOWED_HOSTS = [host.strip() for host in os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",") if host.strip()]
+if not DEBUG:
+    _SANITIZED_HOSTS = [host for host in ALLOWED_HOSTS if host]
+    CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in _SANITIZED_HOSTS]
+    CORS_ALLOWED_ORIGINS = [f"http://{host}" for host in _SANITIZED_HOSTS] + [
+        f"https://{host}" for host in _SANITIZED_HOSTS
+    ]
+else:
+    CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Application definition
@@ -72,7 +80,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
-CORS_ALLOW_ALL_ORIGINS = True
+
 
 TEMPLATES = [
     {

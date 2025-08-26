@@ -19,8 +19,11 @@ COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir --no-compile -r requirements.txt
 COPY . .
 
+RUN mkdir /app/logs/
+
 RUN chmod +x Makefile
 RUN chown -R djate_user:djate_group /app
+RUN chown -R djate_user:djate_group /app/logs
 USER djate_user
 
 FROM base AS worker
